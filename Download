@@ -1,7 +1,5 @@
 # Clear the page
 Clear-Host
-
-
 <#
 .SYNOPSIS
 	Writes text á la typewriter
