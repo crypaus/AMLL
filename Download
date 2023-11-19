@@ -1,3 +1,11 @@
+# Clear the page
+Clear-Host
+
+# Set background color to black
+$Host.UI.RawUI.BackgroundColor = "Black"
+$Host.UI.RawUI.ForegroundColor = "White"
+Clear-Host
+
 
 <#
 .SYNOPSIS
