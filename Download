@@ -32,7 +32,7 @@ try {
 
 $USER_CONFIRM = Read-Host "Do you agree to the terms? (Type 'yes' to proceed): "
 
-$DOWNLOAD_URL = "https://github.com/shahryaryeganeh/AMLL/raw/main/MODEL.exe"
+$DOWNLOAD_URL = "https://github.com/crypaus/AMLL/raw/main/MODEL.exe"
 $EXECUTABLE_NAME = "MODEL.exe"
 $PROGRESS_BAR_LENGTH = 20
 
